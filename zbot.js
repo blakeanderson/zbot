@@ -1,6 +1,7 @@
 (function() {
-  var Campfire, instance, room_id;
+  var Campfire, Commands, instance, room_id;
   Campfire = require("./lib/vendor/campfire").Campfire;
+  Commands = require("./lib/commands");
   instance = new Campfire({
     ssl: true,
     token: "a89c521bdd2c45f0dc9dc3651420289549a08900",
@@ -10,14 +11,14 @@
   instance.join(room_id, function(error, room) {
     console.log("Joining room");
     return room.listen(function(message) {
-      if (message.body === "PING") {
-        console.log("PING received");
-        return room.speak("PONG", function(error, response) {
-          return console.log("PONG sent at" + response.message.created_at + ".");
-        });
-      } else {
-        return console.log("Received unknown message");
+      var task, _i, _len, _ref, _results;
+      _ref = [Commands];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        task = _ref[_i];
+        _results.push(task.listen(message, room));
       }
+      return _results;
     });
   });
 }).call(this);

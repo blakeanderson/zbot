@@ -1,4 +1,5 @@
 Campfire = require("./lib/vendor/campfire").Campfire
+Commands = require("./lib/commands")
 
 instance = new Campfire {
   ssl     : true,
@@ -11,9 +12,4 @@ room_id = 427831
 instance.join (room_id), (error, room) ->
 	console.log "Joining room"
 	room.listen (message) ->
-		if message.body is "PING"
-			console.log "PING received"
-			room.speak ("PONG"), (error, response) ->
-				console.log "PONG sent at" + response.message.created_at + "."
-		else
-			console.log "Received unknown message"	
+		task.listen( message, room ) for task in [Commands]
