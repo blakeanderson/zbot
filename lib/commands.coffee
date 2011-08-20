@@ -9,9 +9,12 @@ api =
 
 	commands: commands
 
-	executeCommand: ( location ) ->
+	executeCommand: ( location, callback ) ->
 		requested_command = require(location)
-		return requested_command.execute()
+		requested_command.execute(
+			(err, result) ->
+				return callback("", result.toString())
+		)
 
 	logger: ( d ) ->
 		try
@@ -22,6 +25,10 @@ api =
 		_.each api.commands, ( command ) ->
 			return if command.name != message.body
 			console.log "#{command.name} command received"
-			room.speak api.executeCommand( command.location ), api.logger
+			api.executeCommand(
+			 command.location
+			 (err, result) ->
+			 	room.speak result
+			)
 
 module.exports = api
