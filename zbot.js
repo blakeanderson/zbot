@@ -4,8 +4,8 @@
   Commands = require("./lib/commands");
   instance = new Campfire({
     ssl: true,
-    token: "a89c521bdd2c45f0dc9dc3651420289549a08900",
-    account: "blakeanderson"
+    token: "<TOKEN HERE>",
+    account: "<ACCOUNT HERE>"
   });
   room_id = 427831;
   instance.join(room_id, function(error, room) {
