@@ -13,7 +13,7 @@ api =
 		requested_command = require(location)
 		requested_command.execute(
 			(err, result) ->
-				return callback("", result.toString())
+				return callback(err, result.toString())
 		)
 
 	logger: ( d ) ->
@@ -28,7 +28,7 @@ api =
 			api.executeCommand(
 			 command.location
 			 (err, result) ->
-			 	room.speak result
+			 		room.speak result
 			)
 
 module.exports = api
